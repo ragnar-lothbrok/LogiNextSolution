@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Catalog Search Page</title>
+<style type="text/css">
+html, body, #map-canvas {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+</style>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false&key=AIzaSyAgsD41g39zvdkd5z6Ue063sFm5dYLmq4s"
+	type="text/javascript"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+	var dataMap;
+	$(document).ready(function() {
+		var url = "/loginexttest/services/coordinateServices/coordinates";
+		$.ajax({
+			type : 'GET',
+			url : url,
+			encode : true
+		}).done(function(data) {
+			if (data.length > 0) {
+				alert(data);
+				dataMap = data;
+				google.maps.event.addDomListener(window, 'load', initialize);
+				initialize();
+			}
+		});
+		google.maps.event.addDomListener(window, 'load', initialize); 
+	});
+	
+	google.maps.event.addDomListener(window, 'load', initialize); 
+
+	function initialize() {
+		if (typeof dataMap == 'undefined' && dataMap.length > 0) {
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom : 10,
+				center : new google.maps.LatLng(-33.92, 151.25),
+				mapTypeId : google.maps.MapTypeId.ROADMAP
+			});
+
+			var infowindow = new google.maps.InfoWindow();
+
+			var marker, i;
+
+			for (i = 0; i < locations.length; i++) {
+				marker = new google.maps.Marker({
+					position : new google.maps.LatLng(dataMap[i].latitude,
+							dataMap[i].longitude),
+					map : map
+				});
+
+				google.maps.event.addListener(marker, 'click', (function(
+						marker, i) {
+					return function() {
+						infowindow.setContent('abc');
+						infowindow.open(map, marker);
+					}
+				})(marker, i));
+			}
+		}
+	}
+</script>
+</head>
+<body>
+	<div id="map_canvas" style="width: 800px; height: 500px;"></div>
+</body>
+</html>

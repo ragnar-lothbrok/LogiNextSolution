@@ -1,0 +1,15 @@
+Application URL : http://localhost:8080/loginexttest/
+
+Enhancements :
+
+1. Apache CXF is used as it provides both SOAP and Rest Web Service.
+2. We can use AuthenticationHandler as well but in current case not necessary.
+3. We can also keep database connection credential file in tomcat/lib.
+
+Steps :
+Use Sql File to create schema and table.
+Change database configuration in jdbc.properties.
+
+mvn clean install -DskipTests
+Deploy in Tomcat
+Access using http://localhost:8080/loginexttest/
