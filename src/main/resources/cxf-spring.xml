@@ -51,4 +51,33 @@
 
 	<context:property-placeholder location="classpath:jdbc.properties" />
 
+	<!-- Swagger API listing resource -->
+	<bean id="swaggerResourceJSON"
+		class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
+
+	<!-- Swagger writers -->
+	<bean id="resourceWriter"
+		class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" />
+	<bean id="apiWriter"
+		class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
+
+	<jaxrs:server address="/sw" id="swagger">
+		<jaxrs:serviceBeans>
+			<ref bean="swaggerResourceJSON" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="resourceWriter" />
+			<ref bean="apiWriter" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+		<property name="resourcePackage" value="com.loginext.test.services" />
+		<property name="version" value="2.0" />
+		<property name="basePath" value="http://localhost:8080/loginexttest/services" />
+		<property name="title" value="Swagger UI Integration With Apache CXF." />
+		<property name="description" value="Swagger UI Integration With Apache CXF." />
+		<property name="contact" value="raghunitb@gmail.com" />
+		<property name="scan" value="true" />
+	</bean>
 </beans>
